@@ -1,5 +1,5 @@
-import { Router, Request, Response } from "express";
-import { BooksService } from "./books.service";
+import { Router, Request, Response } from 'express';
+import { BooksService } from './books.service';
 
 export class BooksController {
   private readonly route: Router;
@@ -12,23 +12,25 @@ export class BooksController {
   }
 
   private BookRoutePath() {
-    this.route.post("/create", this.createNewBook);
-    this.route.get("/:id", this.getBookById);
-    this.route.put("/:id", this.updateBookById);
-    this.route.get("/allbooks", this.getAllBooks);
-    this.route.delete("/:id", this.deleteBookById);
+    this.route.post('/create', this.createNewBook.bind(this));
+    this.route.get('/:id', this.getBookById.bind(this));
+    this.route.put('/:id', this.updateBookById.bind(this));
+    this.route.get('/allbooks', this.getAllBooks.bind(this));
+    this.route.delete('/:id', this.deleteBookById.bind(this));
   }
 
   private async createNewBook(req: Request, res: Response) {
     try {
       const createBook = await this.booksService.createNewBook(req?.body);
       if (createBook) {
-        res.status(201).json({ message: "Book created Successfully." });
+        res.status(201).json({ message: 'Book created Successfully.' });
       } else {
-        res.status(400).json({ message: "Failed to create book" });
+        res.status(400).json({ message: 'Failed to create book' });
       }
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: 'Internal Server Error', description: error });
     }
   }
 
@@ -38,10 +40,10 @@ export class BooksController {
       if (book) {
         res.status(200).json(book);
       } else {
-        res.status(404).json({ message: "Book not found" });
+        res.status(404).json({ message: 'Book not found' });
       }
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
   private async updateBookById(req: Request, res: Response) {
@@ -51,24 +53,24 @@ export class BooksController {
         req.body
       );
       if (updatedBook) {
-        res.status(200).json({ message: "Book updated successfully" });
+        res.status(200).json({ message: 'Book updated successfully' });
       } else {
-        res.status(404).json({ message: "Book not found" });
+        res.status(404).json({ message: 'Book not found' });
       }
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
   private async deleteBookById(req: Request, res: Response) {
     try {
       const deletedBook = await this.booksService.deleteBookById(req.params.id);
       if (deletedBook) {
-        res.status(200).json({ message: "Book deleted successfully" });
+        res.status(200).json({ message: 'Book deleted successfully' });
       } else {
-        res.status(404).json({ message: "Book not found" });
+        res.status(404).json({ message: 'Book not found' });
       }
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
   private async getAllBooks(req: Request, res: Response) {
@@ -76,7 +78,7 @@ export class BooksController {
       const books = await this.booksService.getAllBooks();
       res.status(200).json(books);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
   public getBooksRouters() {

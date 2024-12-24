@@ -3,12 +3,14 @@ import 'dotenv/config';
 import { BooksController } from './src/modules/books/books.controller';
 import bodyParser from 'body-parser';
 import { DatabaseConnection } from './src/database/database.connection';
+import { LoggerMiddleware } from './src/middlewares/logger.middleware';
 
 async function bootStart() {
   const expressApp = Express();
   const PORT = process.env.PORT ?? 4030;
 
   expressApp.use(bodyParser.json());
+  expressApp.use(new LoggerMiddleware().logger);
 
   // Health check route
   expressApp.get('/health', (req: Request, res: Response) => {

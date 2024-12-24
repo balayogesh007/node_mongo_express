@@ -1,14 +1,15 @@
-import Book from "./book.schema";
-import { CreateBookInput } from "./books.interface";
+import Book from './book.schema';
+import { CreateBookInput } from './books.interface';
 
 export class BooksService {
-  async createNewBook(createBook:  CreateBookInput) {
+  async createNewBook(createBook: CreateBookInput) {
     try {
+      console.log('@@@@@@@@@@@@@@', createBook);
       const book = await Book.create(createBook);
       return book;
     } catch (error) {
-      console.error("Failed to create book", error);
-      throw new Error("Failed to create book");
+      console.error('Failed to create book', error);
+      throw new Error('Failed to create book');
     }
   }
 
@@ -16,12 +17,12 @@ export class BooksService {
     try {
       const book = await Book.findById(id);
       if (!book) {
-        throw new Error("Book not found");
+        throw new Error('Book not found');
       }
       return book;
     } catch (error) {
-      console.error("Failed to get book by ID", error);
-      throw new Error("Failed to get book by ID");
+      console.error('Failed to get book by ID', error);
+      throw new Error('Failed to get book by ID');
     }
   }
 
@@ -29,12 +30,12 @@ export class BooksService {
     try {
       const book = await Book.findByIdAndUpdate(id, updateData, { new: true });
       if (!book) {
-        throw new Error("Book not found");
+        throw new Error('Book not found');
       }
       return book;
     } catch (error) {
-      console.error("Failed to update book by ID", error);
-      throw new Error("Failed to update book by ID");
+      console.error('Failed to update book by ID', error);
+      throw new Error('Failed to update book by ID');
     }
   }
 
@@ -42,12 +43,12 @@ export class BooksService {
     try {
       const result = await Book.findByIdAndDelete(id);
       if (!result) {
-        throw new Error("Book not found");
+        throw new Error('Book not found');
       }
-      return { message: "Book deleted successfully" };
+      return { message: 'Book deleted successfully' };
     } catch (error) {
-      console.error("Failed to delete book by ID", error);
-      throw new Error("Failed to delete book by ID");
+      console.error('Failed to delete book by ID', error);
+      throw new Error('Failed to delete book by ID');
     }
   }
 
@@ -56,8 +57,8 @@ export class BooksService {
       const books = await Book.find();
       return books;
     } catch (error) {
-      console.error("Failed to get all books", error);
-      throw new Error("Failed to get all books");
+      console.error('Failed to get all books', error);
+      throw new Error('Failed to get all books');
     }
   }
 }
